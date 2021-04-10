@@ -47,9 +47,14 @@ function check_level_compleated(level_elements){
 
 async function update_common_element(elements,frame){
 	let common_elements =  get_elements_with_tag(elements,frame,"Итоговый уровень")
-	if (common_elements.length ==0)
+
+	const regex = /Компетенция :: /g
+	const stub_suffix = "competency_stub"
+	const stub_regex = /competency_stub/g
+	const found_competency_title = frame.title.match(regex) != null;
+	if (common_elements.length ==0 && !found_competency_title)
 		return
-	let levels = ["Базовый","Средний","Продвинутый","Эксперт"]
+	let levels = ["Новичок","Базовый","Средний","Продвинутый","Эксперт"]
 	let level_to_colors = {
 	"Новичок":"#ffffff",
 	"Базовый":"#f24726",
@@ -70,7 +75,23 @@ async function update_common_element(elements,frame){
 			break
 		}
 	}
-	
+	frame.style.backgroundColor = level_to_colors[result_level]
+	if (found_competency_title){
+		var title= frame.title
+		for (var i = 0; i< levels.length; i++){
+			level = levels[i]
+		
+			title = title.replace(` :: ${level}`, stub_suffix)
+		}
+		
+		if (title.match(stub_suffix) == null){
+			title = title + ` :: ${result_level}`
+		}else{
+			title = title.replace (stub_suffix, ` :: ${result_level}`)
+		}
+		frame.title = title
+	}
+	await miro.board.widgets.update(frame) 
 
 	for (var j = common_elements.length - 1; j >= 0; j--) {
 			common_element = common_elements[j]
