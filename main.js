@@ -1,8 +1,4 @@
-
-
-
-
-function get_element_by_id(id) { 
+function get_element_by_id(elements,id) { 
 	for (var i = elements.length - 1; i >= 0; i--) {
 		if (elements[i].id == id)
 			return elements[i]
@@ -10,12 +6,12 @@ function get_element_by_id(id) {
 	return null
 }
 
-function get_elements_with_tag(frame, tag){
+function get_elements_with_tag(elements,frame, tag){
 	let elements_with_tag = []
 
 	for (var i = frame.childrenIds.length - 1; i >= 0; i--) {
 
-		let child = get_element_by_id(frame.childrenIds[i])
+		let child = get_element_by_id(elements,frame.childrenIds[i])
 		let tags = child.tags
 		if (tags == null)
 			continue
@@ -49,8 +45,8 @@ function check_level_compleated(level_elements){
 
 
 
-async function update_common_element(frame){
-	let common_elements =  get_elements_with_tag(frame,"Итоговый уровень")
+async function update_common_element(elements,frame){
+	let common_elements =  get_elements_with_tag(elements,frame,"Итоговый уровень")
 	if (common_elements.length ==0)
 		return
 	let levels = ["Базовый","Средний","Продвинутый","Эксперт"]
@@ -65,7 +61,7 @@ async function update_common_element(frame){
 	let result_level = "Новичок"
 	for (var i = 0; i< levels.length; i++){
 		level = levels[i]
-		let level_elements =  get_elements_with_tag(frame,level)
+		let level_elements =  get_elements_with_tag(elements,frame,level)
 		compleated = check_level_compleated(level_elements)
 		if (compleated){
 			result_level = level
@@ -92,7 +88,7 @@ async function update_common_element_for_all_frames(){
 	let frames = elements.filter(element => element.type == "FRAME")
 
 	for (var j = frames.length - 1; j >= 0; j--) {
-				await update_common_element(frames[j])
+				await update_common_element(elements,frames[j])
 			}
 }
 
@@ -114,4 +110,3 @@ miro.onReady(() => {
     },
   })
 })
-
