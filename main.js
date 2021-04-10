@@ -1,25 +1,5 @@
 
 
-miro.onReady(() => {
-  miro.initialize({
-    extensionPoints: {
-      bottomBar: {
-        title: 'Calculate Competency Level',
-        svgIcon:
-          '<circle cx="12" cy="12" r="9" fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="2"/>',
-        positionPriority: 1,
-        onClick: async () => {
-          await update_common_element_for_all_frames()
-
-          // Show success message
-          miro.showNotification('Уровни компетенций обновлены')
-        },
-      },
-    },
-  })
-})
-
-
 
 
 function get_element_by_id(id) { 
@@ -115,3 +95,23 @@ async function update_common_element_for_all_frames(){
 				await update_common_element(frames[j])
 			}
 }
+
+miro.onReady(() => {
+  miro.initialize({
+    extensionPoints: {
+      bottomBar: {
+        title: 'Calculate Competency Level',
+        svgIcon:
+          '<circle cx="12" cy="12" r="9" fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="2"/>',
+        positionPriority: 1,
+        onClick: async () => {
+          await update_common_element_for_all_frames()
+
+          // Show success message
+          miro.showNotification('Уровни компетенций обновлены')
+        },
+      },
+    },
+  })
+})
+
