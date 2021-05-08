@@ -48,7 +48,7 @@ function check_level_compleated(level_elements){
 async function update_common_element(elements,frame){
 	let common_elements =  get_elements_with_tag(elements,frame,"Итоговый уровень")
 
-	const regex = /Компетенция :: /g
+	const regex = /:: /g
 	const stub_suffix = "competency_stub"
 	const stub_regex = /competency_stub/g
 	const found_competency_title = frame.title.match(regex) != null;
